@@ -4,7 +4,7 @@ var cors = require("cors");
 const express = require("express");
 const app = express();
 const options = {
-  origin: "http://localhost:5173",
+  origin: true,
   credentials: true,
   allowedHeaders: [
     "set-cookie",

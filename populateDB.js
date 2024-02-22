@@ -13,7 +13,6 @@ const populate = async () => {
     await connectDB(process.env.MONGO_URI);
     await Document.deleteMany();
     await Document.create(jsonDocuments);
-    console.log("Success");
     process.exit(0);
   } catch (error) {
     console.log(error);
@@ -69,4 +68,15 @@ const createThumbs = async () => {
   process.exit(0);
 };
 
-createThumbs();
+const deletePageArray = async () => {
+  await connectDB(process.env.MONGO_URI);
+  const docs = await Document.find({});
+  docs.forEach(async (d) => {
+    console.log(d.label);
+    d.images = [];
+    await d.save();
+  });
+};
+
+//createThumbs();
+deletePageArray();

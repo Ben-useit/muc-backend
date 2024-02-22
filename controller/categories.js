@@ -15,13 +15,11 @@ const getCategoryNames = async (req, res) => {
       },
     },
   ]);
-  //console.log(result);
   result.forEach((c) => {
     const {
       _id: { category },
       count,
     } = c;
-    console.log(category, count);
   });
   res.status(StatusCodes.OK).json(result);
 };

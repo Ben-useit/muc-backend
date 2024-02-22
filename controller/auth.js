@@ -43,17 +43,16 @@ const verifyEmail = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password)
-    throw new BadRequestError("1 Please provide email and password");
+    throw new BadRequestError("Please provide email and password");
   const user = await User.findOne({ email });
   if (!user)
     throw new BadRequestError(
-      "2 Wrong credentials. Invalid username or password."
+      "Wrong credentials. Invalid username or password."
     );
-  console.log(password);
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect)
     throw new BadRequestError(
-      "3 Wrong credentials. Invalid username or password."
+      "Wrong credentials. Invalid username or password."
     );
   if (!user.isVerified) throw new BadRequestError("Please verify your email.");
   const tokenUser = await createTokenUser(user);
@@ -73,14 +72,12 @@ const showCurrentUser = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  //await Token.findOneAndDelete({ user: req.user.userId });
-
   res.cookie("token", "logout", {
     httpOnly: true,
     expires: new Date(Date.now()),
     sameSite: "lax",
   });
-  res.status(StatusCodes.OK).json({ msg: "user logged out!" });
+  res.status(StatusCodes.OK).json({ msg: "User logged out!" });
 };
 
 module.exports = { verifyEmail, register, login, showCurrentUser, logout };

@@ -1,5 +1,5 @@
-const { StatusCodes } = require("http-status-codes");
-const Document = require("../models/document");
+const { StatusCodes } = require('http-status-codes');
+const Document = require('../models/document');
 
 const getAllDocuments = async (req, res) => {
   const { search } = req.query;
@@ -14,11 +14,11 @@ const getAllDocuments = async (req, res) => {
     result = await Document.aggregate([
       {
         $search: {
-          index: "MUC-INDEX",
+          index: 'MUC-INDEX',
           text: {
             query: search,
             path: {
-              wildcard: "*",
+              wildcard: '*',
             },
           },
         },
@@ -32,7 +32,7 @@ const getAllDocuments = async (req, res) => {
           paginatedResults: [{ $skip: skip }, { $limit: limit }],
           totalCount: [
             {
-              $count: "count",
+              $count: 'count',
             },
           ],
         },
@@ -51,7 +51,15 @@ const getAllDocuments = async (req, res) => {
   } else {
     result = Document.find(
       {},
-      { label: 1, pages: 1, fileName: 1, category: 1 }
+      {
+        label: 1,
+        type: 1,
+        pages: 1,
+        fileName: 1,
+        category: 1,
+        ocr: 1,
+        images: 1,
+      }
     );
     result = result.skip(skip).limit(limit);
     documents = await result;

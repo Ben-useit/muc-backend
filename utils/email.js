@@ -1,6 +1,7 @@
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 
 const sendEmail = async ({ to, subject, html }) => {
+  console.log('send email', to, subject, html);
   let testAccount = await nodemailer.createTestAccount();
 
   const transporter = nodemailer.createTransport({
@@ -13,7 +14,7 @@ const sendEmail = async ({ to, subject, html }) => {
   });
 
   let info = await transporter.sendMail({
-    from: '"Ben Hartmann" <ben.hartmann@gmail.com>',
+    from: process.env.MAILER_FROM,
     to,
     subject,
     html,
@@ -31,7 +32,7 @@ const sendVerificationEmail = async ({
 
   sendEmail({
     to: email,
-    subject: "Confirm Email",
+    subject: 'Confirm Email',
     html: `<h4>Hello ${name}</h4>${message}`,
   });
 };
